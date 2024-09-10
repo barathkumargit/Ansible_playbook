@@ -1,0 +1,32 @@
+---
+- name: Create RDS MySQL Database
+  hosts: localhost
+  tasks:
+    - name: Create RDS security group
+      ec2_group:
+        name: "{{ db_security_group_name }}"
+        description: "Security group for RDS instance allowing MySQL traffic"
+        region: "{{ aws_region }}"
+        rules:
+          - proto: tcp
+            from_port: 3306
+            to_port: 3306
+            group_id: "{{ ec2_sg.group_id }}"  # Allow only traffic from EC2
+        state: present
+      register: rds_sg
+
+    - name: Create RDS instance
+      rds:
+        command: create
+        instance_name: "{{ rds_instance_identifier }}"
+        db_name: "{{ db_name }}"
+        engine: "{{ db_engine }}"
+        username: "{{ db_username }}"
+        password: "{{ db_password }}"
+        size: 20
+        instance_type: "{{ db_instance_class }}"
+        region: "{{ aws_region }}"
+        security_groups: "{{ db_security_group_name }}"
+        allocated_storage: 20
+        wait: yes
+      register: rds_instance
