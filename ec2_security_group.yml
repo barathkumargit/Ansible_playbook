@@ -1,0 +1,20 @@
+---
+- name: Create EC2 Security Group for Web Server
+  hosts: localhost
+  tasks:
+    - name: Create security group for EC2
+      ec2_group:
+        name: "{{ ec2_security_group_name }}"
+        description: "Security group for EC2 instance allowing HTTP and SSH"
+        region: "{{ aws_region }}"
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+        state: present
+      register: ec2_sg
