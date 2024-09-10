@@ -1,0 +1,4 @@
+---
+- import_playbook: ec2_security_group.yml
+- import_playbook: ec2_instance.yml
+- import_playbook: rds_instance.yml
