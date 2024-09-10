@@ -1,0 +1,13 @@
+---
+aws_region: "us-east-1"
+ami_id: "ami-0c02fb55956c7d316"  
+instance_type: "t2.micro"
+key_name: "my-keypair"  
+ec2_security_group_name: "web-sg"
+db_security_group_name: "db-sg"
+rds_instance_identifier: "my-db-instance"
+db_name: "mydb"
+db_username: "admin"
+db_password: "password"
+db_instance_class: "db.t2.micro"
+db_engine: "mysql"
